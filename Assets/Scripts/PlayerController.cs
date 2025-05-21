@@ -7,7 +7,12 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 5f;
     public GameObject laserPrefab;
     public Transform firePoint;
+    private AudioManager audioManager;
 
+    private void Awake()
+    {
+        audioManager = FindAnyObjectByType<AudioManager>();
+    }
     void Update()
     {
         float moveX = Input.GetAxis("Horizontal");
@@ -18,6 +23,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            audioManager.PlayShotSound();
             GameObject laser = Instantiate(laserPrefab, firePoint.position, firePoint.rotation);
             Physics2D.IgnoreCollision(laser.GetComponent<Collider2D>(), GetComponent<Collider2D>());
         }

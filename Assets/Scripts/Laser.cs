@@ -1,9 +1,15 @@
-﻿using UnityEngine;
+﻿using System.Net.NetworkInformation;
+using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
     public float speed = 10f;
+    private AudioManager audioManager;
 
+    private void Awake()
+    {
+        audioManager = FindAnyObjectByType<AudioManager>();
+    }
     void Update()
     {
         transform.Translate(Vector2.up * speed * Time.deltaTime);
@@ -17,6 +23,7 @@ public class Laser : MonoBehaviour
         {
             Destroy(collision.gameObject);
             Destroy(gameObject);
+            audioManager.PlayExplosionSound();
         }
     }
 }
