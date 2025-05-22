@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
 
         transform.Translate(new Vector2(moveX, moveY) * moveSpeed * Time.deltaTime);
 
+        ClampPositionWithinScreen();
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             audioManager.PlayShotSound();
@@ -28,6 +30,21 @@ public class PlayerController : MonoBehaviour
             Physics2D.IgnoreCollision(laser.GetComponent<Collider2D>(), GetComponent<Collider2D>());
         }
 
+    }
+
+    void ClampPositionWithinScreen()
+    {
+        Vector3 pos = transform.position;
+
+        // Lấy biên màn hình theo world space
+        Vector3 bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0));
+        Vector3 topRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 0));
+
+        // Giới hạn vị trí nhân vật bên trong màn hình
+        pos.x = Mathf.Clamp(pos.x, bottomLeft.x, topRight.x);
+        pos.y = Mathf.Clamp(pos.y, bottomLeft.y, topRight.y);
+
+        transform.position = pos;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
