@@ -16,6 +16,10 @@ public class EndGameManager : MonoBehaviour
 
     public void PlayAgain()
     {
+        if (ScoreManager.instance != null)
+        {
+            ScoreManager.instance.ResetScore(); 
+        }
         SceneManager.LoadScene("Gameplay");
     }
 

@@ -102,4 +102,10 @@ public class ScoreManager : MonoBehaviour
         }
         return 0;
     }
+
+    public void ResetScore()
+    {
+        score = 0;
+        UpdateScoreUI();
+    }
 }
