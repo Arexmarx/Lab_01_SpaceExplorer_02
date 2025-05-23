@@ -10,6 +10,8 @@ public class ScoreManager : MonoBehaviour
     public static ScoreManager instance;
     public TMP_Text scoreText;
     int score = 0;
+    int starsCollected = 0;
+    public bool tripleShotEnabled = false;
 
     string highScorePath;
     void Awake()
@@ -44,6 +46,14 @@ public class ScoreManager : MonoBehaviour
     public void AddScore(int value)
     {
         score += value;
+        starsCollected++;
+
+        if (starsCollected >= 10 && !tripleShotEnabled)
+        {
+            tripleShotEnabled = true;
+            Debug.Log("Đã mở khóa Triple Shot!");
+        }
+
         UpdateScoreUI();
         if (score == 70 )
         {

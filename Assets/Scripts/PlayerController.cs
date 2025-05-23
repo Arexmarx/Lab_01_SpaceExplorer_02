@@ -26,10 +26,26 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             audioManager.PlayShotSound();
-            GameObject laser = Instantiate(laserPrefab, firePoint.position, firePoint.rotation);
-            Physics2D.IgnoreCollision(laser.GetComponent<Collider2D>(), GetComponent<Collider2D>());
-        }
 
+            if (ScoreManager.instance.tripleShotEnabled)
+            {
+                // Bắn 3 tia với góc lệch trái/phải
+                GameObject laserCenter = Instantiate(laserPrefab, firePoint.position, firePoint.rotation);
+                GameObject laserLeft = Instantiate(laserPrefab, firePoint.position, firePoint.rotation * Quaternion.Euler(0, 0, 15));
+                GameObject laserRight = Instantiate(laserPrefab, firePoint.position, firePoint.rotation * Quaternion.Euler(0, 0, -15));
+
+                // Bỏ qua va chạm giữa 3 tia và người chơi
+                Collider2D playerCollider = GetComponent<Collider2D>();
+                Physics2D.IgnoreCollision(laserCenter.GetComponent<Collider2D>(), playerCollider);
+                Physics2D.IgnoreCollision(laserLeft.GetComponent<Collider2D>(), playerCollider);
+                Physics2D.IgnoreCollision(laserRight.GetComponent<Collider2D>(), playerCollider);
+            }
+            else
+            {
+                GameObject laser = Instantiate(laserPrefab, firePoint.position, firePoint.rotation);
+                Physics2D.IgnoreCollision(laser.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+            }
+        }
     }
 
     void ClampPositionWithinScreen()
