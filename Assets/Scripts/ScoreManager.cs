@@ -14,8 +14,16 @@ public class ScoreManager : MonoBehaviour
     string highScorePath;
     void Awake()
     {
-        if (instance == null) instance = this;
-        else Destroy(gameObject);
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject); // Không huỷ khi chuyển scene
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
 
         string folderPath;
 
@@ -37,6 +45,14 @@ public class ScoreManager : MonoBehaviour
     {
         score += value;
         UpdateScoreUI();
+        if (score == 70 )
+        {
+            SceneManager.LoadScene("Gameplay_2");
+        } else if (score == 100) 
+        {
+            SceneManager.LoadScene("Gameplay_3");
+        }
+
     }
 
     void UpdateScoreUI()
