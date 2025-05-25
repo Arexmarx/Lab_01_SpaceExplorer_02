@@ -8,7 +8,9 @@ public class PlayerController : MonoBehaviour
     public GameObject laserPrefab;
     public Transform firePoint;
     private AudioManager audioManager;
-
+    public GameObject shieldEffect;
+    public float shieldDuration = 5f;
+    private bool isShielded = false;
     private void Awake()
     {
         audioManager = FindAnyObjectByType<AudioManager>();
@@ -67,8 +69,28 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.CompareTag("Asteroid"))
         {
-            ScoreManager.instance.EndGame();
+            if (isShielded)
+            {
+                Destroy(collision.gameObject);
+            }
+            else
+            {
+                ScoreManager.instance.EndGame();
+            }
         }
+    }
+
+    public void ActivateShield()
+    {
+        isShielded = true;
+        shieldEffect.SetActive(true);
+        Invoke(nameof(DeactivateShield), shieldDuration);
+    }
+
+    private void DeactivateShield()
+    {
+        isShielded = false;
+        shieldEffect.SetActive(false);
     }
 
 }

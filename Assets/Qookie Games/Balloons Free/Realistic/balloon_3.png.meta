@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4095767e292af3f4c804bf6b6f9a7f69
+guid: 6e6b912d38d1f8748961d61f31fddde5
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -162,5 +162,5 @@ AssetOrigin:
   productId: 300733
   packageName: Free Balloons 2D sprites
   packageVersion: 1.0
-  assetPath: Assets/Sprites/balloon_star1.png
+  assetPath: Assets/Qookie Games/Balloons Free/Realistic/balloon_3.png
   uploadId: 708486
