@@ -31,6 +31,10 @@ public class MainMenuManager : MonoBehaviour
 
     public void PlayGame()
     {
+        if (HealthManager.instance != null)
+        {
+            HealthManager.instance.ResetLives();
+        }
         SceneManager.LoadScene("Gameplay");
     }
 
