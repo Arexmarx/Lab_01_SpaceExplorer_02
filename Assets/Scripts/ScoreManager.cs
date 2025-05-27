@@ -106,6 +106,8 @@ public class ScoreManager : MonoBehaviour
     public void ResetScore()
     {
         score = 0;
+        starsCollected = 0;
+        tripleShotEnabled = false;
         UpdateScoreUI();
     }
 }

@@ -18,7 +18,13 @@ public class EndGameManager : MonoBehaviour
     {
         if (ScoreManager.instance != null)
         {
-            ScoreManager.instance.ResetScore(); 
+            ScoreManager.instance.ResetScore();
+            PlayerPrefs.DeleteKey("FinalScore");
+            PlayerPrefs.Save();
+        }
+        if (HealthManager.instance != null)
+        {
+            HealthManager.instance.ResetLives();
         }
         SceneManager.LoadScene("Gameplay");
     }

@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     public GameObject laserPrefab;
     public Transform firePoint;
     private AudioManager audioManager;
+    private HealthManager healthManager;
     public GameObject shieldEffect;
     public float shieldDuration = 5f;
     private bool isShielded = false;
@@ -15,6 +16,16 @@ public class PlayerController : MonoBehaviour
     {
         audioManager = FindAnyObjectByType<AudioManager>();
     }
+
+    private void OnEnable()
+    {
+        healthManager = HealthManager.instance;
+        if (healthManager == null)
+        {
+            Debug.LogError("Không tìm thấy HealthManager trong scene!");
+        }
+    }
+
     void Update()
     {
         float moveX = Input.GetAxis("Horizontal");
@@ -69,13 +80,23 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.CompareTag("Asteroid"))
         {
+            Destroy(collision.gameObject);
             if (isShielded)
             {
-                Destroy(collision.gameObject);
+                return;
+            }
+            
+            if (healthManager != null)
+            {
+                healthManager.LoseLife();
+                if (healthManager.IsGameOver())
+                {
+                    ScoreManager.instance.EndGame();
+                }
             }
             else
             {
-                ScoreManager.instance.EndGame();
+                Debug.LogError("HealthManager không tồn tại khi xử lý va chạm!");
             }
         }
     }
