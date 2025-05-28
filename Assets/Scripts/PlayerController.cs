@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviour
     private AudioManager audioManager;
     private HealthManager healthManager;
     public GameObject shieldEffect;
-    public float shieldDuration = 5f;
     private bool isShielded = false;
     private void Awake()
     {
@@ -83,9 +82,10 @@ public class PlayerController : MonoBehaviour
             Destroy(collision.gameObject);
             if (isShielded)
             {
+                DeactivateShield(); // Mất khiên nhưng không mất máu
                 return;
             }
-            
+
             if (healthManager != null)
             {
                 healthManager.LoseLife();
@@ -105,7 +105,6 @@ public class PlayerController : MonoBehaviour
     {
         isShielded = true;
         shieldEffect.SetActive(true);
-        Invoke(nameof(DeactivateShield), shieldDuration);
     }
 
     private void DeactivateShield()
