@@ -1480,6 +1480,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 2080700870}
+  doubleShotEnabled: 0
   tripleShotEnabled: 0
 --- !u!114 &1403384116
 MonoBehaviour:
@@ -2123,7 +2124,6 @@ MonoBehaviour:
   laserPrefab: {fileID: 253261176}
   firePoint: {fileID: 1367395062}
   shieldEffect: {fileID: 511332499}
-  shieldDuration: 5
 --- !u!114 &1792909278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2945,9 +2945,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3036782209115356528, guid: 1723157a42eadb745a2ca8328b26b2c0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -506.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3036782209115356528, guid: 1723157a42eadb745a2ca8328b26b2c0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 227.4
+      objectReference: {fileID: 0}
     - target: {fileID: 4310203096547877643, guid: 1723157a42eadb745a2ca8328b26b2c0, type: 3}
       propertyPath: m_Name
-      value: Canvas
+      value: HeartUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 4372062643375173621, guid: 1723157a42eadb745a2ca8328b26b2c0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -405
+      objectReference: {fileID: 0}
+    - target: {fileID: 4372062643375173621, guid: 1723157a42eadb745a2ca8328b26b2c0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 227.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7395181376147108408, guid: 1723157a42eadb745a2ca8328b26b2c0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -456
+      objectReference: {fileID: 0}
+    - target: {fileID: 7395181376147108408, guid: 1723157a42eadb745a2ca8328b26b2c0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 228.4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

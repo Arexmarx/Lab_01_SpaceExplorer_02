@@ -3,18 +3,21 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+
 public class MainMenuManager : MonoBehaviour
 {
     public GameObject instructionsPanel;
     public TMP_Text highScoreText;
     string highScorePath;
-
+    private MenuAudioManager menuAudio;
 
     private void Start()
     {
         highScorePath = Application.persistentDataPath + "/highscore.json";
         LoadAndShowHighScore();
+        menuAudio = GetComponent<MenuAudioManager>();
     }
+
     void LoadAndShowHighScore()
     {
         int highScore = 0;
@@ -31,6 +34,17 @@ public class MainMenuManager : MonoBehaviour
 
     public void PlayGame()
     {
+        if (menuAudio != null)
+        {
+            menuAudio.StopMenuBackgroundMusic();
+        }
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.StopBackgroundMusic();
+            AudioManager.Instance.PlayBackgroundMusic();
+        }
+
         if (HealthManager.instance != null)
         {
             HealthManager.instance.ResetLives();

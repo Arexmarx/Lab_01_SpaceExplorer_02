@@ -11,6 +11,7 @@ public class ScoreManager : MonoBehaviour
     public TMP_Text scoreText;
     int score = 0;
     int starsCollected = 0;
+    public bool doubleShotEnabled = false;
     public bool tripleShotEnabled = false;
 
     string highScorePath;
@@ -48,21 +49,27 @@ public class ScoreManager : MonoBehaviour
         score += value;
         starsCollected++;
 
-        if (starsCollected >= 10 && !tripleShotEnabled)
+        if (starsCollected >= 13 && !doubleShotEnabled)
+        {
+            doubleShotEnabled = true;
+            Debug.Log("Đã mở khóa Double Shot!");
+        }
+
+        if (starsCollected >= 25 && !tripleShotEnabled)
         {
             tripleShotEnabled = true;
             Debug.Log("Đã mở khóa Triple Shot!");
         }
 
         UpdateScoreUI();
-        if (score == 70 )
+        if (starsCollected == 10)
         {
             SceneManager.LoadScene("Gameplay_2");
-        } else if (score == 100) 
+        } 
+        else if (starsCollected == 20) 
         {
             SceneManager.LoadScene("Gameplay_3");
         }
-
     }
 
     void UpdateScoreUI()
@@ -107,6 +114,7 @@ public class ScoreManager : MonoBehaviour
     {
         score = 0;
         starsCollected = 0;
+        doubleShotEnabled = false;
         tripleShotEnabled = false;
         UpdateScoreUI();
     }

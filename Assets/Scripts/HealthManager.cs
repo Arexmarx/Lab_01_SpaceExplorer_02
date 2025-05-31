@@ -12,6 +12,8 @@ public class HealthManager : MonoBehaviour
 
     private int maxLives = 3;
     private int currentLives;
+    private bool isInitialized = false;
+    private GameObject heartUICanvas; // Lưu reference đến HeartUI Canvas
 
     void Awake()
     {
@@ -20,6 +22,15 @@ public class HealthManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
             SceneManager.sceneLoaded += OnSceneLoaded;
+            isInitialized = true;
+            
+            // Tìm và lưu reference đến HeartUI ngay từ đầu
+            heartUICanvas = GameObject.Find("HeartUI");
+            if (heartUICanvas != null)
+            {
+                // Ẩn HeartUI ban đầu, sẽ được hiện khi vào scene gameplay
+                heartUICanvas.SetActive(false);
+            }
         }
         else
         {
@@ -30,74 +41,123 @@ public class HealthManager : MonoBehaviour
 
     void OnDestroy()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded; // Hủy đăng ký sự kiện khi object bị hủy
+        if (isInitialized)
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name.StartsWith("Gameplay"))
+        // Chỉ hiện HeartUI ở các scene gameplay, ẩn ở các scene khác
+        if (scene.name.StartsWith("Gameplay") && !scene.name.Contains("EndGame"))
         {
             Debug.Log("Scene mới được load: " + scene.name + ", số mạng hiện tại: " + currentLives);
-            // Reset hearts array để tìm lại UI trong scene mới
-            hearts = null;
-            FindAndUpdateHeartsUI();
-            // Cập nhật UI theo số mạng hiện tại
-            UpdateHeartsUI();
+            // Hiện HeartUI và cập nhật
+            if (heartUICanvas != null)
+            {
+                heartUICanvas.SetActive(true);
+                StartCoroutine(InitializeHeartsUI());
+            }
         }
+        else
+        {
+            // Ẩn HeartUI ở MainMenu và EndGame
+            if (heartUICanvas != null)
+            {
+                heartUICanvas.SetActive(false);
+            }
+        }
+    }
+
+    private System.Collections.IEnumerator InitializeHeartsUI()
+    {
+        yield return null; // Đợi một frame
+        FindAndUpdateHeartsUI();
+        UpdateHeartsUI();
     }
 
     void FindAndUpdateHeartsUI()
     {
-        // Reset mảng hearts trước khi tìm mới
-        hearts = null;
-        
-        // Tìm Canvas trong scene mới
-        Canvas[] canvases = Object.FindObjectsByType<Canvas>(FindObjectsSortMode.None);
-        Debug.Log("Số lượng Canvas tìm thấy: " + canvases.Length);
-
-        foreach (Canvas canvas in canvases)
+        // Không tìm HeartUI ở MainMenu và EndGame
+        string currentScene = SceneManager.GetActiveScene().name;
+        if (currentScene == "MainMenu" || currentScene.Contains("EndGame"))
         {
-            // Tìm 3 Image tim trong Canvas
-            Image[] images = canvas.GetComponentsInChildren<Image>();
-            Debug.Log("Số lượng Image trong Canvas: " + images.Length);
+            return;
+        }
 
-            List<Image> foundHearts = new List<Image>();
-
-            foreach (Image img in images)
+        if (hearts != null && hearts.Length == maxLives)
+        {
+            // Kiểm tra xem các tim có còn tồn tại không
+            bool allHeartsValid = true;
+            foreach (Image heart in hearts)
             {
-                if (img.name.Contains("Heart"))  // Tìm các tim theo tên
+                if (heart == null)
                 {
-                    Debug.Log("Tìm thấy tim: " + img.name);
-                    foundHearts.Add(img);
+                    allHeartsValid = false;
+                    break;
                 }
             }
+            if (allHeartsValid) return; // Nếu tất cả tim đều hợp lệ thì không cần tìm lại
+        }
 
-            if (foundHearts.Count >= maxLives) // tìm đủ 3 tim
+        // Reset mảng hearts
+        hearts = new Image[maxLives];
+        
+        // Sử dụng heartUICanvas đã lưu thay vì tìm lại
+        if (heartUICanvas != null)
+        {
+            Canvas canvas = heartUICanvas.GetComponent<Canvas>();
+            if (canvas != null)
             {
-                hearts = foundHearts.ToArray();
-                Debug.Log("Đã tìm thấy đủ " + hearts.Length + " tim");
-                return;
+                // Tìm 3 Image tim trong Canvas
+                Image[] images = canvas.GetComponentsInChildren<Image>(true);
+                Debug.Log("Số lượng Image trong HeartUI Canvas: " + images.Length);
+
+                List<Image> foundHearts = new List<Image>();
+
+                foreach (Image img in images)
+                {
+                    if (img.name.Contains("Heart"))
+                    {
+                        Debug.Log("Tìm thấy tim: " + img.name);
+                        foundHearts.Add(img);
+                    }
+                }
+
+                if (foundHearts.Count >= maxLives)
+                {
+                    foundHearts.Sort((a, b) => a.name.CompareTo(b.name));
+                    hearts = foundHearts.GetRange(0, maxLives).ToArray();
+                    Debug.Log("Đã tìm thấy và sắp xếp " + hearts.Length + " tim trong HeartUI");
+                    return;
+                }
             }
         }
 
-        Debug.LogError("Không tìm thấy đủ " + maxLives + " Image tim trong Canvas mới!");
+        Debug.LogError("Không tìm thấy đủ " + maxLives + " Image tim trong HeartUI Canvas!");
     }
 
     void Start()
     {
+        if (!isInitialized) return;
+        
         // Chỉ set lại số mạng nếu chưa có (lần đầu chơi)
         if (currentLives == 0)
         {
             ResetLives();
+        }
+        else
+        {
+            // Đảm bảo UI được cập nhật với số mạng hiện tại
+            FindAndUpdateHeartsUI();
+            UpdateHeartsUI();
         }
     }
 
     public void ResetLives()
     {
         currentLives = maxLives;
-        // Reset hearts array để tìm lại UI trong scene mới
-        hearts = null;
-        // Tìm và cập nhật UI ngay lập tức
         FindAndUpdateHeartsUI();
         UpdateHeartsUI();
         Debug.Log("Reset mạng sống về " + maxLives);
@@ -115,35 +175,32 @@ public class HealthManager : MonoBehaviour
             {
                 FindAndUpdateHeartsUI();
             }
-            
             UpdateHeartsUI();
-
-            if (currentLives <= 0)
-            {
-                if (ScoreManager.instance != null)
-                {
-                    ScoreManager.instance.EndGame();
-                }
-            }
         }
     }
 
     void UpdateHeartsUI()
     {
-        if (hearts != null && hearts.Length > 0)
+        // Không cập nhật UI nếu đang ở MainMenu
+        if (SceneManager.GetActiveScene().name == "MainMenu")
         {
-            for (int i = 0; i < hearts.Length; i++)
-            {
-                if (hearts[i] != null)
-                {
-                    hearts[i].sprite = (i < currentLives) ? fullHeart : emptyHeart;
-                    Debug.Log("Cập nhật tim " + i + ": " + (i < currentLives ? "đầy" : "rỗng") + " (số mạng: " + currentLives + ")");
-                }
-            }
+            return;
         }
-        else
+
+        if (hearts == null || hearts.Length == 0)
         {
             Debug.LogWarning("Không thể cập nhật UI tim vì mảng hearts trống!");
+            return;
+        }
+
+        for (int i = 0; i < hearts.Length; i++)
+        {
+            if (hearts[i] != null)
+            {
+                hearts[i].sprite = (i < currentLives) ? fullHeart : emptyHeart;
+                hearts[i].enabled = true; // Đảm bảo tim luôn hiển thị
+                Debug.Log("Cập nhật tim " + i + ": " + (i < currentLives ? "đầy" : "rỗng") + " (số mạng: " + currentLives + ")");
+            }
         }
     }
 

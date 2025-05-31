@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour
     private HealthManager healthManager;
     public GameObject shieldEffect;
     private bool isShielded = false;
+    private float shieldDuration = 3f; // Thời gian tồn tại của shield
+    private float shieldTimer = 0f; // Biến đếm thời gian
+
     private void Awake()
     {
         audioManager = FindAnyObjectByType<AudioManager>();
@@ -30,10 +33,19 @@ public class PlayerController : MonoBehaviour
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
 
-
         transform.Translate(new Vector2(moveX, moveY) * moveSpeed * Time.deltaTime);
 
         ClampPositionWithinScreen();
+
+        // Xử lý thời gian tồn tại của shield
+        if (isShielded)
+        {
+            shieldTimer += Time.deltaTime;
+            if (shieldTimer >= shieldDuration)
+            {
+                DeactivateShield();
+            }
+        }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -49,6 +61,17 @@ public class PlayerController : MonoBehaviour
                 // Bỏ qua va chạm giữa 3 tia và người chơi
                 Collider2D playerCollider = GetComponent<Collider2D>();
                 Physics2D.IgnoreCollision(laserCenter.GetComponent<Collider2D>(), playerCollider);
+                Physics2D.IgnoreCollision(laserLeft.GetComponent<Collider2D>(), playerCollider);
+                Physics2D.IgnoreCollision(laserRight.GetComponent<Collider2D>(), playerCollider);
+            }
+            else if (ScoreManager.instance.doubleShotEnabled)
+            {
+                // Bắn 2 tia với góc lệch trái/phải
+                GameObject laserLeft = Instantiate(laserPrefab, firePoint.position, firePoint.rotation * Quaternion.Euler(0, 0, 10));
+                GameObject laserRight = Instantiate(laserPrefab, firePoint.position, firePoint.rotation * Quaternion.Euler(0, 0, -10));
+
+                // Bỏ qua va chạm giữa 2 tia và người chơi
+                Collider2D playerCollider = GetComponent<Collider2D>();
                 Physics2D.IgnoreCollision(laserLeft.GetComponent<Collider2D>(), playerCollider);
                 Physics2D.IgnoreCollision(laserRight.GetComponent<Collider2D>(), playerCollider);
             }
@@ -104,12 +127,14 @@ public class PlayerController : MonoBehaviour
     public void ActivateShield()
     {
         isShielded = true;
+        shieldTimer = 0f; // Reset timer khi kích hoạt shield
         shieldEffect.SetActive(true);
     }
 
     private void DeactivateShield()
     {
         isShielded = false;
+        shieldTimer = 0f; // Reset timer khi tắt shield
         shieldEffect.SetActive(false);
     }
 

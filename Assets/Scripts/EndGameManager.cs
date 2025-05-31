@@ -26,11 +26,34 @@ public class EndGameManager : MonoBehaviour
         {
             HealthManager.instance.ResetLives();
         }
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.StopBackgroundMusic();
+            AudioManager.Instance.PlayBackgroundMusic();
+        }
+
         SceneManager.LoadScene("Gameplay");
     }
 
     public void ReturnToMainMenu()
     {
+        if (ScoreManager.instance != null)
+        {
+            ScoreManager.instance.ResetScore();
+            PlayerPrefs.DeleteKey("FinalScore");
+            PlayerPrefs.Save();
+        }
+        if (HealthManager.instance != null)
+        {
+            HealthManager.instance.ResetLives();
+        }
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.StopBackgroundMusic();
+        }
+
         SceneManager.LoadScene("MainMenu");
     }
 }

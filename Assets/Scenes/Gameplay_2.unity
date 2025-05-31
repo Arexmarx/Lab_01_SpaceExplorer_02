@@ -1370,7 +1370,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4310203096547877643, guid: 1723157a42eadb745a2ca8328b26b2c0, type: 3}
       propertyPath: m_Name
-      value: Canvas
+      value: HeartUI
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1648,6 +1648,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 2080700870}
+  doubleShotEnabled: 0
   tripleShotEnabled: 0
 --- !u!114 &1403384116
 MonoBehaviour:
@@ -2291,7 +2292,6 @@ MonoBehaviour:
   laserPrefab: {fileID: 253261176}
   firePoint: {fileID: 1367395062}
   shieldEffect: {fileID: 368805115}
-  shieldDuration: 5
 --- !u!114 &1792909278
 MonoBehaviour:
   m_ObjectHideFlags: 0
