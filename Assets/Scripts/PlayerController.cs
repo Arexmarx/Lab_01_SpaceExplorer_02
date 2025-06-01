@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        audioManager = FindAnyObjectByType<AudioManager>();
+        audioManager = AudioManager.GetInstance();
     }
 
     private void OnEnable()
@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !PauseManager.isPaused)
         {
             audioManager.PlayShotSound();
 

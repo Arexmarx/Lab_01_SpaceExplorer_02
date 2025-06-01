@@ -14,6 +14,23 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip starClip;
     [SerializeField] private AudioClip explosionClip;
 
+    public static AudioManager GetInstance()
+    {
+        if (Instance == null)
+        {
+            // Tìm AudioManager trong scene
+            Instance = FindObjectOfType<AudioManager>();
+
+            // Nếu không tìm thấy, tạo mới
+            if (Instance == null)
+            {
+                GameObject audioManagerObj = new GameObject("AudioManager");
+                Instance = audioManagerObj.AddComponent<AudioManager>();
+            }
+        }
+        return Instance;
+    }
+
     private void Awake()
     {
         // Singleton pattern
@@ -101,6 +118,21 @@ public class AudioManager : MonoBehaviour
         if (effectAudioSource != null && explosionClip != null)
         {
             effectAudioSource.PlayOneShot(explosionClip);
+        }
+    }
+
+    public void ResetAudio()
+    {
+        // Dừng tất cả âm thanh
+        if (effectAudioSource != null)
+        {
+            effectAudioSource.Stop();
+        }
+        if (backgroundAudioSource != null)
+        {
+            backgroundAudioSource.Stop();
+            // Phát lại nhạc nền
+            PlayBackgroundMusic();
         }
     }
 }

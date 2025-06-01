@@ -39,16 +39,11 @@ public class MainMenuManager : MonoBehaviour
             menuAudio.StopMenuBackgroundMusic();
         }
 
-        if (AudioManager.Instance != null)
+        if (GameManager.Instance != null)
         {
-            AudioManager.Instance.StopBackgroundMusic();
-            AudioManager.Instance.PlayBackgroundMusic();
+            GameManager.Instance.ResetGame();
         }
 
-        if (HealthManager.instance != null)
-        {
-            HealthManager.instance.ResetLives();
-        }
         SceneManager.LoadScene("Gameplay");
     }
 

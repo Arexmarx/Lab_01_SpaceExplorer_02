@@ -50,7 +50,7 @@ public class HealthManager : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // Chỉ hiện HeartUI ở các scene gameplay, ẩn ở các scene khác
-        if (scene.name.StartsWith("Gameplay") && !scene.name.Contains("EndGame"))
+        if (scene.name.StartsWith("Gameplay") && !scene.name.Contains("EndGame") && !scene.name.Contains("MainMenu"))
         {
             Debug.Log("Scene mới được load: " + scene.name + ", số mạng hiện tại: " + currentLives);
             // Hiện HeartUI và cập nhật

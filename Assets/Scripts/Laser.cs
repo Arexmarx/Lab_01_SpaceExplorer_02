@@ -8,7 +8,7 @@ public class Laser : MonoBehaviour
 
     private void Awake()
     {
-        audioManager = FindAnyObjectByType<AudioManager>();
+        audioManager = AudioManager.GetInstance();
     }
     void Update()
     {
