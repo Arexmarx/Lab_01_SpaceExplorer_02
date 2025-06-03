@@ -49,6 +49,11 @@ public class MainMenuManager : MonoBehaviour
             GameManager.Instance.ResetGame();
         }
 
+        if (GameplayManager.Instance != null)
+        {
+            GameplayManager.Instance.ResetGame();
+        }
+
         SceneManager.LoadScene("Gameplay");
     }
 

@@ -49,23 +49,30 @@ public class HealthManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Chỉ hiện HeartUI ở các scene gameplay, ẩn ở các scene khác
-        if (scene.name.StartsWith("Gameplay") && !scene.name.Contains("EndGame") && !scene.name.Contains("MainMenu"))
+        if (scene.name == "MainMenu" || scene.name == "EndGame")
         {
-            Debug.Log("Scene mới được load: " + scene.name + ", số mạng hiện tại: " + currentLives);
-            // Hiện HeartUI và cập nhật
-            if (heartUICanvas != null)
-            {
-                heartUICanvas.SetActive(true);
-                StartCoroutine(InitializeHeartsUI());
-            }
+            Destroy(gameObject);
         }
         else
         {
-            // Ẩn HeartUI ở MainMenu và EndGame
-            if (heartUICanvas != null)
+            // Chỉ hiện HeartUI ở các scene gameplay, ẩn ở các scene khác
+            if (scene.name.StartsWith("Gameplay") && !scene.name.Contains("EndGame") && !scene.name.Contains("MainMenu"))
             {
-                heartUICanvas.SetActive(false);
+                Debug.Log("Scene mới được load: " + scene.name + ", số mạng hiện tại: " + currentLives);
+                // Hiện HeartUI và cập nhật
+                if (heartUICanvas != null)
+                {
+                    heartUICanvas.SetActive(true);
+                    StartCoroutine(InitializeHeartsUI());
+                }
+            }
+            else
+            {
+                // Ẩn HeartUI ở MainMenu và EndGame
+                if (heartUICanvas != null)
+                {
+                    heartUICanvas.SetActive(false);
+                }
             }
         }
     }

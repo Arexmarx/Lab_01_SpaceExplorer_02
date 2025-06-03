@@ -167,4 +167,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 2
   purpleBubblePrefab: {fileID: 5743003805275083251, guid: 37c13cf8da30bb940abafd38eb4c448f, type: 3}
-  dropChance: 0.3
+  dropChance: 0.1

@@ -1,2 +1,14 @@
 fileFormatVersion: 2
 guid: 5365450f68b448f4a996a1dd8605a77e
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - instructionsPanel: {instanceID: 0}
+  - highScoreText: {instanceID: 0}
+  - gameplayManagerPrefab: {fileID: 5915091603505239744, guid: 7c0a68589412de046a0d8454c895a971, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

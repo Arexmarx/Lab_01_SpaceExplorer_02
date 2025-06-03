@@ -44,8 +44,23 @@ public class ScoreManager : MonoBehaviour
 
         highScorePath = folderPath + "/highscore.json";
         Debug.Log("Lưu tại: " + Application.persistentDataPath);
+
+        DontDestroyOnLoad(gameObject);
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
+    void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "MainMenu" || scene.name == "EndGame")
+        {
+            Destroy(gameObject);
+        }
+    }
 
     public void AddScore(int value)
     {
