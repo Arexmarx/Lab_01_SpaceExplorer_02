@@ -830,7 +830,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   instructionsPanel: {fileID: 1904436477}
   highScoreText: {fileID: 1573903609}
-  gameplayManagerPrefab: {fileID: 0}
 --- !u!114 &204789673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1254,8 +1253,8 @@ MonoBehaviour:
   m_text: "How to Play ?\n - Using [Arrows] on keyborad for moving space ship\n -
     Using [Space] for shot\n "
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0ae64fa293281ec4b921bbd010162682, type: 2}
+  m_sharedMaterial: {fileID: -2265641174573723523, guid: 0ae64fa293281ec4b921bbd010162682, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

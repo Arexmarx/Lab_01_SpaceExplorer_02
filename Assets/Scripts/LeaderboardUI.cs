@@ -22,8 +22,8 @@ public class LeaderboardUI : MonoBehaviour
 
     public void ShowLeaderboard()
     {
-        //highScorePath = Path.Combine(Application.persistentDataPath, "highscore.json");
-        //Debug.Log("Đọc từ: " + highScorePath);
+        highScorePath = Path.Combine(Application.persistentDataPath, "highscore.json");
+        Debug.Log("Đọc từ: " + highScorePath);
 
         if (!File.Exists(highScorePath))
         {
