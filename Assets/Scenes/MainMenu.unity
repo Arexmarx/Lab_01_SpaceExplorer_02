@@ -830,6 +830,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   instructionsPanel: {fileID: 1904436477}
   highScoreText: {fileID: 1573903609}
+  gameplayManagerPrefab: {fileID: 0}
 --- !u!114 &204789673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2091,8 +2092,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioManagerPrefab: {fileID: 7773608968018007052, guid: fb2ba3439ec191b4a870a1061806e9fd, type: 3}
-  healthManagerPrefab: {fileID: 4310203096547877643, guid: 1723157a42eadb745a2ca8328b26b2c0, type: 3}
-  scoreManagerPrefab: {fileID: 4080242568781356156, guid: 768ae967893e38942afbba300eea162d, type: 3}
 --- !u!4 &1858789460
 Transform:
   m_ObjectHideFlags: 0

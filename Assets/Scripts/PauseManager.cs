@@ -38,6 +38,12 @@ public class PauseManager : MonoBehaviour
     public void LoadMainMenu()
     {
         Time.timeScale = 1f;
+
+        // Huỷ các manager nếu còn tồn tại
+        if (ScoreManager.instance != null) Destroy(ScoreManager.instance.gameObject);
+        if (HealthManager.instance != null) Destroy(HealthManager.instance.gameObject);
+        if (GameplayManager.Instance != null) Destroy(GameplayManager.Instance.gameObject);
+
         SceneManager.LoadScene("MainMenu");
     }
 }

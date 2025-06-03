@@ -5,8 +5,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     [SerializeField] private GameObject audioManagerPrefab;
-    [SerializeField] private GameObject healthManagerPrefab;
-    [SerializeField] private GameObject scoreManagerPrefab;
+    //[SerializeField] private GameObject healthManagerPrefab;
+    //[SerializeField] private GameObject scoreManagerPrefab;
 
     private void Awake()
     {
@@ -38,30 +38,30 @@ public class GameManager : MonoBehaviour
         }
 
         // Khởi tạo HealthManager nếu chưa tồn tại
-        if (HealthManager.instance == null)
-        {
-            if (healthManagerPrefab != null)
-            {
-                Instantiate(healthManagerPrefab);
-            }
-            else
-            {
-                Debug.LogError("HealthManager Prefab chưa được gán trong GameManager!");
-            }
-        }
+        //if (HealthManager.instance == null)
+        //{
+        //    if (healthManagerPrefab != null)
+        //    {
+        //        Instantiate(healthManagerPrefab);
+        //    }
+        //    else
+        //    {
+        //        Debug.LogError("HealthManager Prefab chưa được gán trong GameManager!");
+        //    }
+        //}
 
         // Khởi tạo ScoreManager nếu chưa tồn tại
-        if (ScoreManager.instance == null)
-        {
-            if (scoreManagerPrefab != null)
-            {
-                Instantiate(scoreManagerPrefab);
-            }
-            else
-            {
-                Debug.LogError("ScoreManager Prefab chưa được gán trong GameManager!");
-            }
-        }
+        //if (ScoreManager.instance == null)
+        //{
+        //    if (scoreManagerPrefab != null)
+        //    {
+        //        Instantiate(scoreManagerPrefab);
+        //    }
+        //    else
+        //    {
+        //        Debug.LogError("ScoreManager Prefab chưa được gán trong GameManager!");
+        //    }
+        //}
     }
 
     public void ResetGame()
@@ -70,13 +70,13 @@ public class GameManager : MonoBehaviour
         {
             AudioManager.Instance.ResetAudio();
         }
-        if (HealthManager.instance != null)
-        {
-            HealthManager.instance.ResetLives();
-        }
-        if (ScoreManager.instance != null)
-        {
-            ScoreManager.instance.ResetScore();
-        }
+        //if (HealthManager.instance != null)
+        //{
+        //    HealthManager.instance.ResetLives();
+        //}
+        //if (ScoreManager.instance != null)
+        //{
+        //    ScoreManager.instance.ResetScore();
+        //}
     }
 }
