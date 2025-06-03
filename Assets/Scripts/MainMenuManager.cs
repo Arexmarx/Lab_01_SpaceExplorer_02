@@ -25,12 +25,17 @@ public class MainMenuManager : MonoBehaviour
         if (File.Exists(highScorePath))
         {
             string json = File.ReadAllText(highScorePath);
-            HighScoreData data = JsonUtility.FromJson<HighScoreData>(json);
-            highScore = data.highScore;
+            HighScoreList data = JsonUtility.FromJson<HighScoreList>(json);
+
+            if (data != null && data.highScores != null && data.highScores.Count > 0)
+            {
+                highScore = data.highScores[0].score; // Vì danh sách đã được sắp theo thứ tự giảm dần
+            }
         }
 
-        highScoreText.text = "High Score: " + highScore.ToString();
+        highScoreText.text = "Highest Score: " + highScore.ToString();
     }
+
 
     public void PlayGame()
     {
