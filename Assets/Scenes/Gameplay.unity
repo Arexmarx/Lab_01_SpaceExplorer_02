@@ -1340,13 +1340,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1367395061}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.6, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: 0.003989051, w: 0.9999921}
+  m_LocalPosition: {x: 0.004, y: 1.345, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1792909276}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.457}
 --- !u!1 &1523303500
 GameObject:
   m_ObjectHideFlags: 0
@@ -1665,6 +1665,7 @@ MonoBehaviour:
   laserPrefab: {fileID: 253261176}
   firePoint: {fileID: 1367395062}
   shieldEffect: {fileID: 511332499}
+  invincibilityDuration: 2
 --- !u!114 &1792909278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1824,11 +1825,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6361263560830310465, guid: 37c13cf8da30bb940abafd38eb4c448f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.2666
+      value: -1.85
       objectReference: {fileID: 0}
     - target: {fileID: 6361263560830310465, guid: 37c13cf8da30bb940abafd38eb4c448f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.3953
+      value: -0.22
       objectReference: {fileID: 0}
     - target: {fileID: 6361263560830310465, guid: 37c13cf8da30bb940abafd38eb4c448f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1877,19 +1878,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 60064825456509405, guid: 9863dafeb10fdb845a2f4ae670b805f0, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.8724
+      value: -1.1346767
       objectReference: {fileID: 0}
     - target: {fileID: 60064825456509405, guid: 9863dafeb10fdb845a2f4ae670b805f0, type: 3}
       propertyPath: m_LocalScale.y
-      value: 3.6484
+      value: 53.55386
       objectReference: {fileID: 0}
     - target: {fileID: 60064825456509405, guid: 9863dafeb10fdb845a2f4ae670b805f0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.04
+      value: 0.08
       objectReference: {fileID: 0}
     - target: {fileID: 60064825456509405, guid: 9863dafeb10fdb845a2f4ae670b805f0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.35
+      value: 3.03
       objectReference: {fileID: 0}
     - target: {fileID: 60064825456509405, guid: 9863dafeb10fdb845a2f4ae670b805f0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2093,7 +2094,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 327691513502664231, guid: 145a9c16897807f48baae705f78019db, type: 3}
       propertyPath: dropChance
-      value: 0.12
+      value: 0.61
       objectReference: {fileID: 0}
     - target: {fileID: 2153108292823870729, guid: 145a9c16897807f48baae705f78019db, type: 3}
       propertyPath: m_Name

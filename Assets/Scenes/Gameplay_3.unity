@@ -1418,7 +1418,7 @@ Transform:
   m_GameObject: {fileID: 1367395061}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.6, z: 0}
+  m_LocalPosition: {x: 0, y: 1.345, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1476,6 +1476,7 @@ MonoBehaviour:
   scoreText: {fileID: 2080700870}
   doubleShotEnabled: 0
   tripleShotEnabled: 0
+  nameInputField: {fileID: 0}
 --- !u!114 &1403384116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2205,6 +2206,7 @@ MonoBehaviour:
   laserPrefab: {fileID: 253261176}
   firePoint: {fileID: 1367395062}
   shieldEffect: {fileID: 1447245940}
+  invincibilityDuration: 2
 --- !u!114 &1792909278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2545,7 +2547,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 60064825456509405, guid: 9863dafeb10fdb845a2f4ae670b805f0, type: 3}
       propertyPath: m_LocalScale.y
-      value: 3.6484
+      value: 53.52378
       objectReference: {fileID: 0}
     - target: {fileID: 60064825456509405, guid: 9863dafeb10fdb845a2f4ae670b805f0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2553,7 +2555,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 60064825456509405, guid: 9863dafeb10fdb845a2f4ae670b805f0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.35
+      value: 3.64
       objectReference: {fileID: 0}
     - target: {fileID: 60064825456509405, guid: 9863dafeb10fdb845a2f4ae670b805f0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2769,7 +2771,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 327691513502664231, guid: 145a9c16897807f48baae705f78019db, type: 3}
       propertyPath: dropChance
-      value: 0.02
+      value: 0.83
       objectReference: {fileID: 0}
     - target: {fileID: 2153108292823870729, guid: 145a9c16897807f48baae705f78019db, type: 3}
       propertyPath: m_Name
