@@ -1,66 +1,77 @@
 ﻿using UnityEngine;
 using TMPro;
-using System.Collections.Generic;
-using System.IO;
-using UnityEngine.UI;
+using UnityEngine.Networking;
+using System.Collections;
 
 public class LeaderboardUI : MonoBehaviour
 {
-    public GameObject leaderboardPanel;
-    public TMP_Text[] rankTexts; // Gán 5 TMP_Text trong inspector
-
-    string highScorePath;
-
-    void Awake()
+    public GameObject leaderboardPanel;       
+    public TMP_Text[] rankTexts;              
+    private void Awake()
     {
-        highScorePath = Path.Combine(Application.persistentDataPath, "highscore.json");
-        Debug.Log("Đường dẫn file JSON: " + highScorePath);
-
-        leaderboardPanel.SetActive(false);
+        leaderboardPanel.SetActive(false);    
     }
-
 
     public void ShowLeaderboard()
     {
-        highScorePath = Path.Combine(Application.persistentDataPath, "highscore.json");
-        Debug.Log("Đọc từ: " + highScorePath);
-
-        if (!File.Exists(highScorePath))
-        {
-            Debug.LogWarning("Không tìm thấy file JSON!");
-            return;
-        }
-
-        string json = File.ReadAllText(highScorePath);
-        Debug.Log("Nội dung JSON: " + json);
-
-        HighScoreList data = JsonUtility.FromJson<HighScoreList>(json);
-        if (data == null || data.highScores == null)
-        {
-            Debug.LogWarning("Lỗi khi parse JSON.");
-            return;
-        }
-
-        for (int i = 0; i < rankTexts.Length; i++)
-        {
-            if (i < data.highScores.Count)
-            {
-                rankTexts[i].text = $"{i + 1}. {data.highScores[i].playerName} - {data.highScores[i].score}";
-            }
-            else
-            {
-                rankTexts[i].text = $"{i + 1}. ---";
-            }
-        }
-
         leaderboardPanel.SetActive(true);
+        
+        StartCoroutine(GetLeaderboardFromApi());
     }
 
 
+    IEnumerator GetLeaderboardFromApi()
+    {
+        string url = "https://todo-app-be-6p6d.onrender.com/api/highscores/top";
+
+        UnityWebRequest request = UnityWebRequest.Get(url);
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            string json = request.downloadHandler.text;
+
+            HighScoreEntryResponseList result = JsonUtility.FromJson<HighScoreEntryResponseList>("{\"scores\":" + json + "}");
+
+            if (result != null && result.scores != null)
+            {
+                for (int i = 0; i < rankTexts.Length; i++)
+                {
+                    if (i < result.scores.Length)
+                    {
+                        rankTexts[i].text = $"{i + 1}. {result.scores[i].playerName} - {result.scores[i].score}";
+                    }
+                    else
+                    {
+                        rankTexts[i].text = $"{i + 1}. ---";
+                    }
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Không có dữ liệu điểm cao từ API.");
+                ClearLeaderboardUI();
+            }
+        }
+        else
+        {
+            Debug.LogError("Lỗi khi lấy leaderboard từ API: " + request.error);
+            ClearLeaderboardUI();
+        }
+    }
 
     public void HideLeaderboard()
     {
         leaderboardPanel.SetActive(false);
     }
-}
 
+    private void ClearLeaderboardUI()
+    {
+        for (int i = 0; i < rankTexts.Length; i++)
+        {
+            rankTexts[i].text = $"{i + 1}. ---";
+        }
+    }
+}

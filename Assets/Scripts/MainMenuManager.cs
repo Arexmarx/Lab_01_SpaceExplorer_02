@@ -1,41 +1,50 @@
-﻿using System.IO;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+using UnityEngine.Networking;
 using TMPro;
 
 public class MainMenuManager : MonoBehaviour
 {
     public GameObject instructionsPanel;
     public TMP_Text highScoreText;
-    string highScorePath;
     private MenuAudioManager menuAudio;
 
     private void Start()
     {
-        highScorePath = Application.persistentDataPath + "/highscore.json";
-        LoadAndShowHighScore();
         menuAudio = GetComponent<MenuAudioManager>();
+        StartCoroutine(LoadAndShowHighScoreFromApi());
     }
 
-    void LoadAndShowHighScore()
+    IEnumerator LoadAndShowHighScoreFromApi()
     {
-        int highScore = 0;
+        string url = "https://todo-app-be-6p6d.onrender.com/api/highscores/top";
+        UnityWebRequest request = UnityWebRequest.Get(url);
+        request.SetRequestHeader("Content-Type", "application/json");
 
-        if (File.Exists(highScorePath))
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success)
         {
-            string json = File.ReadAllText(highScorePath);
-            HighScoreList data = JsonUtility.FromJson<HighScoreList>(json);
+            string json = request.downloadHandler.text;
 
-            if (data != null && data.highScores != null && data.highScores.Count > 0)
+            HighScoreEntryResponseList result = JsonUtility.FromJson<HighScoreEntryResponseList>("{\"scores\":" + json + "}");
+
+            if (result != null && result.scores != null && result.scores.Length > 0)
             {
-                highScore = data.highScores[0].score; // Vì danh sách đã được sắp theo thứ tự giảm dần
+                highScoreText.text = "Highest Score: " + result.scores[0].score;
+            }
+            else
+            {
+                highScoreText.text = "Highest Score: 0";
             }
         }
-
-        highScoreText.text = "Highest Score: " + highScore.ToString();
+        else
+        {
+            Debug.LogError("Failed to fetch high score: " + request.error);
+            highScoreText.text = "Highest Score: 0";
+        }
     }
-
 
     public void PlayGame()
     {
@@ -66,4 +75,17 @@ public class MainMenuManager : MonoBehaviour
     {
         Application.Quit();
     }
+}
+
+[System.Serializable]
+public class HighScoreEntryResponse
+{
+    public string playerName;
+    public int score;
+}
+
+[System.Serializable]
+public class HighScoreEntryResponseList
+{
+    public HighScoreEntryResponse[] scores;
 }
