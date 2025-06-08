@@ -5,10 +5,11 @@ public class AsteroidMovement : MonoBehaviour
     public float moveSpeed = 2f;
     private Vector2 direction;
 
-    public GameObject purpleBubblePrefab;
+    public GameObject purpleBubblePrefab;   // Bong bóng thường
+    public GameObject speedBuffPrefab;      // Bong bóng tăng tốc
 
-    [Range(0f, 1f)] // Cho phép chỉnh slider dễ dàng trong Inspector, giới hạn từ 0 đến 1
-    public float dropChance = 0.3f; // Tỉ lệ rơi bong bóng (0.0 - 1.0)
+    [Range(0f, 1f)]
+    public float dropChance = 0.3f; // Xác suất rơi bong bóng tăng tốc
 
     void Start()
     {
@@ -23,14 +24,18 @@ public class AsteroidMovement : MonoBehaviour
 
     public void DestroyAsteroid()
     {
-        if (purpleBubblePrefab != null)
+        // Tỉ lệ rơi bong bóng buff (speed)
+        if (speedBuffPrefab != null && Random.value <= dropChance)
         {
-            if (Random.value <= dropChance)
-            {
-                Instantiate(purpleBubblePrefab, transform.position, Quaternion.identity);
-            }
+            Instantiate(speedBuffPrefab, transform.position, Quaternion.identity);
         }
-        Destroy(gameObject);
+        else if (purpleBubblePrefab != null)
+        {
+            // Nếu không rơi speed buff thì có thể rơi bong bóng thường
+            Instantiate(purpleBubblePrefab, transform.position, Quaternion.identity);
+        }
+
+        Destroy(gameObject); // Phá hủy thiên thạch
     }
 
     private void OnTriggerEnter2D(Collider2D other)
